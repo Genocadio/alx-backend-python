@@ -3,12 +3,12 @@
 from typing import Any, Mapping, Union, TypeVar
 
 
-T = TypeVar('T')
-Res = Union[Any, T]
-Def = Union[T, None]
+V = TypeVar('V')
+ret = Union[Any, V]
+args = Union[V, None]
 
 
-def safely_get_value(dct: Mapping, key: Any, default: Def = None) -> Res:
+def safely_get_value(dct: Mapping, key: Any, default: args = None) -> ret:
     """gets a value from dictionary"""
     if key in dct:
         return dct[key]
