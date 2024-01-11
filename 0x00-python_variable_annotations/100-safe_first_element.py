@@ -8,5 +8,4 @@ def safe_first_element(lst: Iterable[Any]) -> Optional[Any]:
     """Returns the first element of the iterable if it exists"""
     if lst:
         return next(iter(lst))
-    else:
-        return None
+    return None
