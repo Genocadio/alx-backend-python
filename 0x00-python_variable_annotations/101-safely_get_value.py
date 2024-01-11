@@ -4,11 +4,11 @@ from typing import Any, Mapping, Union, TypeVar
 
 
 V = TypeVar('V')
-ret = Union[Any, V]
-args = Union[V, None]
+Res = Union[Any, V]
+Def = Union[V, None]
 
 
-def safely_get_value(dct: Mapping, key: Any, default: args = None) -> ret:
+def safely_get_value(dct: Mapping, key: Any, default: Def = None) -> Res:
     """gets a value from dictionary"""
     if key in dct:
         return dct[key]
