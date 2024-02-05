@@ -8,7 +8,7 @@ from unittest.mock import (
     PropertyMock,
     patch,
 )
-from parameterized import parameterized, parameterized_class
+from parameterized import parameterized
 from requests import HTTPError
 
 from client import (
@@ -114,3 +114,43 @@ class TestGithubOrgClient(unittest.TestCase):
         gh_org_client = GithubOrgClient("google")
         client_has_licence = gh_org_client.has_license(repo, key)
         self.assertEqual(client_has_licence, expected)
+
+
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """TestIntegrationGithubOrgClient class"""
+    
+    @classmethod    
+    def setUpClass(cls) -> None:
+        """set up class"""
+        route_payload = {
+            'https://api.github.com/orgs/google': cls.org_payload,
+            'https://api.github.com/orgs/google/repos': cls.repos_payload,
+        }
+
+        def getPayload(url):
+            """getPayload method"""
+            if url in route_payload:
+                return Mock(**{'json.return_value': route_payload[url]})
+            return HTTPError
+
+        cls.get_patcher = patch("requests.get", side_effect=getPayload)
+        cls.get_patcher.start()
+    
+    def test_public_repos(self) -> None:
+        """Tests the `public_repos` method."""
+        self.assertEqual(
+            GithubOrgClient("google").public_repos(),
+            self.expected_repos,
+        )
+
+    def test_public_repos_with_license(self) -> None:
+        """test_public_repos_with_license method"""
+        self.assertEqual(
+            GithubOrgClient("google").public_repos(license="apache-2.0"),
+            self.apache2_repos,
+        )
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        """tear down class"""
+        cls.get_patcher.stop()
