@@ -48,6 +48,7 @@ class TestAccessNestedMap(unittest.TestCase):
 
 
 class TestGetJson(unittest.TestCase):
+    '''TestGetJson class'''
     @parameterized.expand([
         ("http://example.com", {"payload": True}),
         ("http://holberton.io", {"payload": False}),
@@ -57,6 +58,7 @@ class TestGetJson(unittest.TestCase):
         test_url: str,
         test_payload: Dict,
     ) -> None:
+        '''test_get_json method'''
         atrbs = {'json.return_value': test_payload}
         with patch("requests.get", return_value=Mock(**atrbs)) as req_get:
             self.assertEqual(get_json(test_url), test_payload)
@@ -68,11 +70,14 @@ class TestMemoize(unittest.TestCase):
     def test_memoize(self) -> None:
         '''test_memoize method'''
         class TestClass:
+            '''TestClass class'''
             def a_method(self):
+                '''a_method method'''
                 return 42
 
             @memoize
             def a_property(self):
+                '''a_property method'''
                 return self.a_method()
         with patch.object(
                 TestClass,
