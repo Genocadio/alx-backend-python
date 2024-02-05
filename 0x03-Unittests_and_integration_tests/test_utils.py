@@ -74,6 +74,7 @@ class TestMemoize(unittest.TestCase):
                 return self.a_method()
         with patch.object(
                 TestClass,
+                "a_method",
                 return_value=lambda: 42,
                 ) as memo_fxn:
             test_class = TestClass()
