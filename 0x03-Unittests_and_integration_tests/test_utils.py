@@ -2,6 +2,7 @@
 '''unitest file'''
 import unittest
 from parameterized import parameterized
+from unittest.mock import Mock, patch
 from typing import (
     Mapping,
     Sequence,
@@ -45,6 +46,7 @@ class TestAccessNestedMap(unittest.TestCase):
         with self.assertRaises(exception):
             access_nested_map(nested_map, path)
 
+
 class TestGetJson(unittest.TestCase):
     @parameterized.expand([
         ("http://example.com", {"payload": True}),
@@ -55,12 +57,7 @@ class TestGetJson(unittest.TestCase):
         test_url: str,
         test_payload: Dict,
     ) -> None:
-        with unittest.mock.patch('requests.get') as mock_request:
-            mock_request.return_value.json.return_value = test_payload
+        atrbs = {'json.return_value': test_payload}
+        with patch("requests.get", return_value=Mock(**atrbs)) as req_get:
             self.assertEqual(get_json(test_url), test_payload)
-            mock_request.assert_called_once_with(test_url)
-            mock_request.return_value.json.assert_called_once_with()
-            mock_request.return_value.raise_for_status.assert_not_called()
-            mock_request.return_value.raise_for_status.assert_called_once_with()
-            mock_request.return_value.close.assert_not_called()
-            mock_request.return_value.close.assert_called_once_with()
+            req_get.assert_called_once_with(test_url)
