@@ -20,6 +20,7 @@ from utils import (
 
 
 class TestAccessNestedMap(unittest.TestCase):
+    '''TestAccessNestedMap class'''
     @parameterized.expand([
         ({"a": 1}, ("a",), 1),
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
@@ -31,6 +32,7 @@ class TestAccessNestedMap(unittest.TestCase):
         path: Tuple[str],
         expected: Union[Dict, int]
     ) -> None:
+        '''test_access_nested_map method'''
         self.assertEqual(access_nested_map(nested_map, path), expected)
 
     @parameterized.expand([
@@ -43,6 +45,7 @@ class TestAccessNestedMap(unittest.TestCase):
         path: Tuple[str],
         exception: Exception,
     ) -> None:
+        '''test_access_nested_map_exception method'''
         with self.assertRaises(exception):
             access_nested_map(nested_map, path)
 
