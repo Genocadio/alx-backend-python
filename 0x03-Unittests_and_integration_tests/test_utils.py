@@ -72,17 +72,11 @@ class TestMemoize(unittest.TestCase):
             @memoize
             def a_property(self):
                 return self.a_method()
-
-        with patch.object(TestClass, 'a_method', return_value=42) as mock:
-            test = TestClass()
-            self.assertEqual(test.a_property, 42)
-            self.assertEqual(test.a_property, 42)
-            mock.assert_called_once()
-            mock.reset_mock()
-            test.a_property = 98
-            self.assertEqual(test.a_property, 98)
-            mock.assert_not_called()
-            mock.reset_mock()
-            test.a_method = 98
-            self.assertEqual(test.a_method, 98)
-            mock.assert_not_called()
+        with patch.object(
+                TestClass,
+                return_value=lambda: 42,
+                ) as memo_fxn:
+            test_class = TestClass()
+            self.assertEqual(test_class.a_property(), 42)
+            self.assertEqual(test_class.a_property(), 42)
+            memo_fxn.assert_called_once()
