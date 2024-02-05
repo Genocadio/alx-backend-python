@@ -8,7 +8,7 @@ from unittest.mock import (
     PropertyMock,
     patch,
 )
-from parameterized import parameterized
+from parameterized import parameterized, parameterized_class
 from requests import HTTPError
 
 from client import (
