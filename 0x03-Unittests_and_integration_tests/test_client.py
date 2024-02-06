@@ -18,7 +18,7 @@ from fixtures import TEST_PAYLOAD
 
 
 class TestGithubOrgClient(unittest.TestCase):
-    """TestGithubOrgClient class""" 
+    """TestGithubOrgClient class"""
     @parameterized.expand([
         ("google", {'login': "google"}),
         ("abc", {'login': "abc"}),
@@ -118,8 +118,8 @@ class TestGithubOrgClient(unittest.TestCase):
 
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """TestIntegrationGithubOrgClient class"""
-    
-    @classmethod    
+
+    @classmethod
     def setUpClass(cls) -> None:
         """set up class"""
         route_payload = {
@@ -135,7 +135,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
         cls.get_patcher = patch("requests.get", side_effect=getPayload)
         cls.get_patcher.start()
-    
+
     def test_public_repos(self) -> None:
         """Tests the `public_repos` method."""
         self.assertEqual(
